@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Basc's reproducible</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/bascug.css">
+        <script src="js/vendor/modernizr-2.6.1.min.js"></script>
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+        </script>
+        <script type="text/css">
+            span.bold {
+                font-weight: 900;
+            }
+        </script>
+        <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <div class="body_content_container" style="background-color: #020202;">
+            <span style="color: #FFFFFF;">
+                <h3>Reproducible file accompanying the manuscript</h3>
+                <h2>Basc: Constrained Approximation by Semidefinite Programming</h2>
+                <h3>by Simon Foucart and Vladlena Powers</h3>
+            </span>
+        </div>
+        <br>
+        <div class="body_content_container">
+            <h1>Contents</h1>
+            <ul>
+                <li>
+                    <a href="#2">One-sided polynomial approximation</a>
+                </li>
+                <li>
+                    <a href="#3">Weighted and interpolatory polynomial approximation</a>
+                </li>
+                <li>
+                    <a href="#4">Spline approximation</a>
+                </li>
+                <li>
+                    <a href="#5">Bernstein-type constants</a>
+                </li>
+                <li>
+                    <a href="#6">Natural cubic spline</a>
+                </li>
+                <li>
+                    <a href="#7">References</a>
+                </li>
+            </ul>
+            <br>
+            <p>
+This document illustrates how to use the MATLAB package <b>Basc</b> 
+(<b>B</b>est <b>A</b>pproximation by <b>S</b>plines under <b>C</b>onstraints, version 1.0)
+by calling the generic command with different options.
+All the theoretical justifications are to be found in [1].
+The package relies heavily on CVX [2] and Chebfun [3],
+which are included in the downloadable folder.
+CVX and Chebfun need to be activated from the folder "/basc_v1.0" by typing <span class="mltxt">basc_setup</span> 
+at MATLAB's prompt.
+Then, for later convenience, we define
+            </p>
+            
+            <div class="code_box">x = chebfun(<span class="string">'x'</span>);
+LW = <span class="string">'LineWidth'</span>; lw = 2; POS = <span class="string">'Position'</span>; pos = [-50 -50 1366 768];
+FS = <span class="string">'FontSize'</span>; fs = 16; LOC = <span class="string">'Location'</span>; loc = <span class="string">'northoutside'</span>; BX = <span class="string">'box'</span>; bx = <span class="string">'off'</span>;</div>
+            
+            <p>
+Given a target function $F$ and a linear space $\mathcal{S}$ of
+approximants, the general problem considered here consists
+in minimizing
+$\|F-P\|$
+over all $P \in \mathcal{S}$
+for various norms on the interval $[-1,1]$
+under various convex constraints.
+In all instances,
+the problem is translated to the level of Chebyshev coefficients using
+Chebfun [3], transformed into a semidefinite program,
+and solved using CVX [2].
+Below are some usage examples of the main function.
+            </p>
+            <br>
+            <a name="2">
+            <h1>One-sided polynomial approximation</h1>
+            <p>
+Here we approximate the function $F(x) = \frac{T_5(x)}{4+\cos(x)+\sin(x)}$ 
+by polynomials of degree $n \le 4$ in the max-norm and in the 2-norm,
+and we also incorporate the constraints that the approximant is
+smaller/larger than the target function, 
+i.e., we consider approximation from below/above.
+The leftmost graph shows the target function and the unconstrained
+approximants.
+The middle graph displays the differences between the target function and
+the max-norm approximants:
+one recognizes the equioscillation property for the unconstrained
+approximation and one also observes that the one-sided approximants are
+just shifted versions of the unconstrained approximant
+(a fact that is easy to establish).
+The rightmost graph reveals that such a phenomenon does not occur for the
+2-norm.
+            </p>
+            
+            <div class="code_box">n = 4; F = chebpoly(5)./(4+cos(x)+sin(x));
+[e,P] = basc(F,n); [e2,P2] = basc(F,n,<span class="string">'norm'</span>,2);
+[ea,Pa] = basc(F,n,<span class="string">'above'</span>); [ea2,Pa2] = basc(F,n,<span class="string">'above'</span>,<span class="string">'norm'</span>,2);
+[eb,Pb] = basc(F,n,<span class="string">'below'</span>); [eb2,Pb2] = basc(F,n,<span class="string">'below'</span>,<span class="string">'norm'</span>,2);
+
+set(figure(1),POS,pos);
+subplot(1,3,1); plot(F,<span class="string">'x-k'</span>,P,<span class="string">'s--g'</span>,P2,<span class="string">'o:m'</span>,LW,lw);
+set(legend(<span class="string">'target function'</span>,<span class="string">'best max-norm approx.'</span>,<span class="string">'best 2-norm approx.'</span>),...<br>	FS,fs,LOC,loc,BX,bx);
+subplot(1,3,2); plot(F-P,<span class="string">'s--g'</span>,F-Pa,<span class="string">'x-y'</span>,F-Pb,<span class="string">'d-.b'</span>,LW,lw);
+set(legend(<span class="string">'max-norm approx. error'</span>,<span class="string">'from above'</span>,<span class="string">'from below'</span>),FS,fs,LOC,loc,BX,bx);
+subplot(1,3,3); plot(F-P2,<span class="string">'o:m'</span>,F-Pa2,<span class="string">'x-c'</span>,F-Pb2,<span class="string">'d-.r'</span>,LW,lw);
+set(legend(<span class="string">'2-norm approx. error'</span>,<span class="string">'from above'</span>,<span class="string">'from below'</span>),FS,fs,LOC,loc,BX,bx);</div>
+
+            <p class="centeredImage"><img src="img/reproducible_01.png" style="height: auto;max-width: 100%;margin: 0px auto;" /></p>
+            <br>
+            <a name="3">
+            <h1>Weighted and interpolatory polynomial approximation</h1>
+            <p>
+With a different target function and approximant degree,
+the experiment below shows how to compute the best unconstrained approximant
+and the best odd approximant relative to a weighted max-norm. 
+It also shows how to compute the best approximant under interpolatory conditions
+at the endpoints, still relative to the weighted max-norm.
+Note that the weight $W(x) = x^2$ vanishes two-fold at $x=0$,
+which forces the approximant to agree two-fold with the target function
+at $x=0$.
+This is indeed verified by the examples considered here.
+            </p>
+            
+            <div class="code_box">n = 5; F = chebpoly(7)./(4+cos(x)+sin(x));
+[ew,Pw] = basc(F,n,<span class="string">'weight'</span>,x.^2);
+[ewo,Pwo] = basc(F,n,<span class="string">'weight'</span>,x.^2,<span class="string">'parity'</span>,<span class="string">'odd'</span>);
+[ewi,Pwi] = basc(F,n,<span class="string">'weight'</span>,x.^2,<span class="string">'interpolation'</span>,{{0,[-1 1]}});
+
+set(figure(2),POS,pos);
+subplot(1,2,1); plot(F,<span class="string">'x-k'</span>,Pw,<span class="string">'d-.b'</span>,Pwo,<span class="string">'s--g'</span>,LW,lw);
+set(legend(<span class="string">'target function'</span>, <span class="string">'best weighted approx.'</span>, <span class="string">'best weighted odd approx.'</span>),...<br>	FS,fs,LOC,loc,BX,bx);
+subplot(1,2,2); plot(F,<span class="string">'x-k'</span>,Pwi,<span class="string">'o:r'</span>,LW,lw);
+set(legend(<span class="string">'target function'</span>, <span class="string">'best weighted interpolatory approx.'</span>),FS,fs,LOC,loc,BX,bx);</div>
+
+            <p class="centeredImage"><img src="img/reproducible_02.png" style="height: auto;max-width: 100%;margin: 0px auto;" /></p>
+            <br>
+            <a name="4">
+            <h1>Spline approximation</h1>
+            <p>
+We now consider the approximation in the max-norm by splines, 
+i.e., piecewise polynomials satisfying some smoothness conditions at the
+breakpoints.
+In the first example below, a polynomial of degree $2n$ is approximated
+by splines of degree $2n-1$ with one breakpoint at $x=0$.
+No smoothness condition is imposed at this breakpoint,
+in other words, the spline is a priori $C^{-1}$ there,
+but one notices that it is in fact automatically $C^0$
+(a fact that can be verified theoretically).
+For comparison, the best $C^1$ spline approximant is also displayed.
+            </p>
+            
+            <div class="code_box">n = 2; F = chebfun(rand(2*n+1,1),<span class="string">'coeffs'</span>);
+[es,Ps] = basc(F,2*n-1,<span class="string">'bkpts'</span>,[0],<span class="string">'smoothness'</span>,[-1]);
+[es2,Ps2] = basc(F,2*n-1,<span class="string">'bkpts'</span>,[0],<span class="string">'smoothness'</span>,[1]);
+
+set(figure(3),POS,pos);
+plot(F,<span class="string">'x-k'</span>,Ps,<span class="string">'d-.b'</span>,Ps2,<span class="string">'s--g'</span>,<span class="string">'interval'</span>,[-0.4 0.4],LW,lw);
+set(legend(<span class="string">'target function'</span>,<span class="string">'C^{-1}-spline approx.'</span>,<span class="string">'C^1-spline approx.'</span>),...<br>	FS,fs,LOC,loc,BX,bx);</div>
+
+            <p class="centeredImage"><img src="img/reproducible_03.png" style="height: auto;max-width: 100%;margin: 0px auto;" /></p>
+            <p>
+In the next example of spline approximation,
+the target function is a spline itself:
+it is taken to be the prototypical absolute value function.
+We compute its best max-norm approximants by splines 
+with breakpoints at $x=-1/2$ and $x=1/2$ and whose three polynomial pieces 
+have degree $1$, $2$, and $1$, respectively.
+One approximant has smoothness $C^0$ at both breakpoints -- this example
+incidentally reveals that best approximants are not always unique,
+as perturbing the slopes of the outside pieces does not affect the
+overall error.
+Another approximant has maximal (meaning $C^1$ here) smoothness at both
+breakpoints.
+The last approximant obeys an extra constraint besides maximal smoothness, 
+namely its derivative is lower bounded by the function $L(x)=-1/2$.
+            </p>
+            
+            <div class="code_box">F = abs(x);
+[e0,P0] = basc(F,[1 2 1],<span class="string">'bkpts'</span>,[-1/2 1/2],<span class="string">'smoothness'</span>,[0 0]);
+[e1,P1] = basc(F,[1 2 1],<span class="string">'bkpts'</span>,[-1/2 1/2],<span class="string">'smoothness'</span>,<span class="string">'maximal'</span>);
+[elr,Plr] = basc(F,[1 2 1],<span class="string">'bkpts'</span>,[-1/2 1/2],<span class="string">'smoothness'</span>,<span class="string">'maximal'</span>,<span class="keyword">...</span>
+  <span class="string">'lower range'</span>,{{1,chebfun(-0.5)}});
+
+set(figure(4),POS,pos);
+plot(F,<span class="string">'x-k'</span>,P0,<span class="string">'d-.b'</span>,P1,<span class="string">'s--g'</span>,Plr,<span class="string">'o:r'</span>,LW,lw);
+set(legend(<span class="string">'target function'</span>, <span class="string">'C^0-approx.'</span>,<span class="string">'C^1-approx.'</span>,<span class="string">'lower-ranged C^1-approx'</span>),...<br>	FS,fs,LOC,loc,BX,bx);</div>
+
+            <p class="centeredImage"><img src="img/reproducible_04.png" style="height: auto;max-width: 100%;margin: 0px auto;" /></p>
+            <br>
+            <a name="5">
+            <h1>Bernstein-type constants</h1>
+            <p>
+Here we look at the rate $E_n(|\cdot|)$ of approximation error to the absolute value
+function in the max-norm by polynomials of degree $\le n$.
+It is a classical fact that
+$$ \beta := \lim_{n \to \infty} n E_n(|\cdot|) $$
+exists. 
+This result is due to Bernstein, who conjectured the value $\frac{1}{2 \sqrt{\pi}}$ for $\beta$.
+This was disproved by Varga and Carpenter who obtained the value
+$$ \beta \approx 0.280169499023. $$
+Furthermore, it is known that
+$$ \beta^{\rm conv} := \lim_{n \to \infty} n E_n^{\rm conv}(|\cdot|) $$
+exists, too.
+Below, we verify the behavior of $E_n(|\cdot|)$ and investigate that of
+$E_n^{\rm conv}(|\cdot|)$.
+Before doing so, let us see what the best approximant, the best convex
+approximant, and the best [convex-on-concave-outside-$[-2/3,2/3]$] approximant to $|\cdot|$
+look like when $n=5$.
+            </p>
+            
+            <div class="code_box">n = 5; F = abs(x);
+[e,P] = basc(F,n);
+[econv,Pconv] = basc(F,n,<span class="string">'convex'</span>);
+[econv2,Pconv2] = basc(F,n,<span class="string">'shape'</span>,{{2,-(x.^2-4/9)}});
+
+set(figure(5),POS,pos);
+plot(F,<span class="string">'x-k'</span>,P,<span class="string">'d-.b'</span>,Pconv,<span class="string">'o:r'</span>,Pconv2,<span class="string">'s--g'</span>,LW,lw);
+set(legend(<span class="string">'target function'</span>,<span class="string">'best approx.'</span>,<span class="string">'best convex approx.'</span>,,...<br>	<span class="string">'best partially convex approx.'</span>),FS,fs,LOC,loc,BX,bx);</div>
+            <p class="centeredImage"><img src="img/reproducible_05.png" style="height: auto;max-width: 100%;margin: 0px auto;" /></p>
+            <p>
+We continue with the calculation of $E_n(|\cdot|)$ and of 
+$E_n^{\rm conv}(|\cdot|)$ for values of even $n$ 
+up to $n = 26$ and $n = 18$, respectively,
+and we report their behaviors in the graph below.
+Note that we used a customized code for the convex approximation
+in order to increase the range of computable $n$.
+            </p>
+            
+            <div class="code_box">beta = 0.280169499023;
+<span class="keyword">for</span> n = 2:2:26; B(n) = n*basc(F,n); <span class="keyword">end</span>
+<span class="keyword">for</span> n = 2:2:18; Bcvx(n) = Bernstein_conv(n); <span class="keyword">end</span>
+
+set(figure(6),POS,pos);
+subplot(1,2,1); plot(2:2:26,B(2:2:26),<span class="string">'d-.b'</span>,2:2:26,beta*ones(1,13),<span class="string">'o:r'</span>,LW,lw);
+set(legend(<span class="string">'n E_n(|.|)'</span>,<span class="string">'\beta'</span>),FS,fs,LOC,loc,BX,bx); xlabel(<span class="string">'n'</span>);
+subplot(1,2,2); plot(2:2:18,Bcvx(2:2:18),<span class="string">'s--g'</span>,LW,lw);
+set(legend(<span class="string">'n E_n^{conv}(|.|)'</span>),FS,fs,LOC,loc,BX,bx); xlabel(<span class="string">'n'</span>);</div>
+
+            <p class="centeredImage"><img src="img/reproducible_06.png" style="height: auto;max-width: 100%;margin: 0px auto;" /></p>
+            <br>
+            <a name="6">
+            <h1>Natural cubic spline</h1>
+            <p>
+Given nodes $-1 = t_0 < t_1 < \cdots < t_{M-1} < t_M = 1$
+and data $y_0,y_1,\ldots,y_{M-1},y_M$,
+the natural cubic spline is the $C^2$ function that minimizes $\|P''\|_2$
+subject to the interpolatoty conditions $P(t_i) = y_i$ for all $i$.
+This function has breakpoints at $t_1,\ldots,t_{M-1}$,
+its pieces all have degree $\le 3$,
+and it satisfies $P''(t_0)=0$ and $P''(t_M)=0$.
+We minimize not over all $C^2$ functions,
+but over all $C^2$ splines of degree $5$ with breakpoints $t_1,\ldots,t_{M-1}$
+and we verify below that the second derivative of the minimizer is indeed
+a continuous linear function vanishing at the endpoints.
+            </p>
+            
+            <div class="code_box">t = [-1/3 1/3]; s = [2 2]; n = 5;
+[e,P] = basc(chebfun(0),n,<span class="string">'objective'</span>,{inf,{2,1}},<span class="string">'norm'</span>,2,<span class="string">'bkpts'</span>,t,<span class="keyword">...</span>
+  <span class="string">'smoothness'</span>,s,<span class="string">'interpolation'</span>,{{0,[-1 t 1;1 2 0 1]},{2,[-1 1;0 0]}});
+
+set(figure(7),POS,pos);
+subplot(1,2,1); plot(P,<span class="string">'d-.b'</span>,LW,lw); hold <span class="string">on</span>; plot([-1 t 1],[1 2 0 1],<span class="string">'xk'</span>,LW,2*lw);
+title(<span class="string">'A natural cubic spline'</span>,FS,fs);
+subplot(1,2,2); plot(diff(P,2),<span class="string">'o:r'</span>,LW,lw);
+title(<span class="string">'Second derivative of the natural cubic spline'</span>,FS,fs);</div>
+
+            <p class="centeredImage"><img src="img/reproducible_07.png" style="height: auto;max-width: 100%;margin: 0px auto;" /></p>
+            <br>
+            <a name="7">
+            <h1>References</h1>
+            <p>
+1. S. Foucart and V. Powers, "Basc: constrained approximation by semidefinite
+programming", In preparation.<br><br>
+2. CVX Research, Inc., "CVX: MATLAB software for disciplined
+convex programming, version 2.1", 2014, <a href="http://cvxr.com/cvx">http://cvxr.com/cvx</a>.<br><br>
+3. L. N. Trefethen et al., "Chebfun Version 5, The Chebfun Development Team", 2014, <a href="http://www.chebfun.org">http://www.chebfun.org</a>.<br><br>
+            </p>
+        </div>
+        
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.0.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+    </body>
+</html>

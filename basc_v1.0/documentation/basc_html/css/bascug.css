@@ -1,0 +1,89 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600);
+
+
+/* MATLAB COLOR #d55000;*/
+
+
+/* MATLAB COLOR #F3FFFF;*/
+/* MATLAB COLOR #B6C0C0;*/
+
+root { 
+    display: block;
+}
+
+body {
+    position: relative;
+    padding-top: 50px;
+    padding-bottom: 20px;
+
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 0.9em;
+    line-height: 1.42857143;
+    color: #000000;
+    background-color: #ffffff;
+}
+
+.matlab_comment {
+    color: #228B22;
+}
+
+.diagram {
+    max-width:100%;
+    height: auto;
+}
+
+span.bold { font-weight: 900 }
+span.matlabref {  }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+span.mltxt { font-size: 1.0em; color:#0000FF; font-family: "Courier New", Courier, monospace; font-weight: normal; background-color: #D0D0D0; }
+
+body {
+    background-color: #CFDBE6;
+    /*background-color: #e6eaec;*/
+}
+    .body_content_container {
+        
+        background-color: #FFFFFF;
+        border: none;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        border-radius: 6px;
+        
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+
+        max-width: 850px;
+        margin: 0 auto;
+        padding: 0.01em 20px;
+    }
+    .body_content_element,
+    .code_box {
+        margin: 20px 0;
+    }
+    
+    .code_box {
+        white-space: pre-wrap;
+        /*color: #FFFFFF;*/
+        
+        font-family: "Courier New", Courier, monospace;
+        font-weight: normal;
+        
+        padding: 20px;
+        
+        background-color: #FCFFFF;
+        border: solid;
+        border-color: #B6C0C0;
+        border-width: 2px;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        border-radius: 6px;
+    }
