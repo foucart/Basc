@@ -1,0 +1,145 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600);
+
+
+/* MATLAB COLOR #d55000;*/
+
+
+/* MATLAB COLOR #F3FFFF;*/
+/* MATLAB COLOR #B6C0C0;*/
+
+root { 
+    display: block;
+}
+
+body {
+    min-height: 2000px;
+    position: relative;
+    padding-top: 50px;
+    padding-bottom: 20px;
+
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 0.9em;
+    line-height: 1.42857143;
+    color: #333333;
+    background-color: #ffffff;
+    overflow-y:scroll;
+}
+
+.matlab_comment {
+    color: #228B22;
+}
+
+.diagram {
+    max-width:100%;
+    height: auto;
+}
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+span.content_link {color: #0000FF;}
+
+a {
+    color: #0000FF;
+    cursor: pointer;
+}
+a:link {
+    color: #0000FF;
+}
+a:visited {
+    color: #800080;
+}
+a:active {
+    color: #FF0000;
+}
+
+span.matlab_text {background-color: #dddddd; color: #118}
+
+.desc_table td {
+    padding: 5px;
+}
+
+body {
+    background-color: #CFDBE6;
+    /*background-color: #e6eaec;*/
+}
+.body_content_container {
+
+    background-color: #F8F8F8;
+    border: none;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+
+    max-width: 850px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    padding: 8px 10px;
+}
+.body_content_container_container {
+
+    background-color: #CFDBE6;
+    border: none;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+
+    margin: 0 auto;
+    margin-bottom: 10px;
+    padding: 8px 10px;
+}
+.body_content_element,
+.code_box {
+    margin: 20px 0;
+}
+
+.code_output_box {
+    white-space: pre-wrap;
+    /*color: #FFFFFF;*/
+
+    font-family: monospace;
+    font-weight: normal;
+
+    padding: 20px;
+
+    background-color: #FCFFFF;
+    border: solid;
+    border-color: #B6C0C0;
+    border-width: 2px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.code_box {
+    white-space: pre-wrap;
+    /*color: #FFFFFF;*/
+
+    font-family: "Courier New", Courier, monospace;
+    font-weight: normal;
+
+    padding: 20px;
+
+    background-color: #FCFFFF;
+    border: solid;
+    border-color: #B6C0C0;
+    border-width: 2px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.content_box {
+    padding-top: 10px;
+}
