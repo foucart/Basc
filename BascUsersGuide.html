@@ -153,30 +153,38 @@ and solved using CVX [2].
                     <b>Basc</b> finds the best approximant to a target function, entered as a chebfun, by a polynomial or spline of given degree(s), entered as a single integer or as
                     a row-vector of integers, under a certain number of convex constraints.<br><br>
                     
-                    [minimum, minimizer, status] = basc(F, degP) returns<br>
+                    [minimum, minimizer, status] = basc(F, degP)
+		    <br>outputs<br>
 
                     <b>minimum</b> - the error of best approximation<br>
                     <b>minimizer</b> - the best approximant returned as a chebfun<br>
-                    <b>status</b> - reliability of the result (duplicates cvx_status) [minimum, minimizer, status] = basc(F, degP) minimizes with the optimization parameters specified in the structure options. The optional inputs are usually given after the name of the corresponding field. <br><br>
-                    <b>Basc</b> uses the following options structure fields:<br>
+                    <b>status</b> - reliability of the result (duplicates cvx_status)
+	            <br><br> 
+		    
+		    [minimum, minimizer, status] = basc(F, degP,options)
+		    <br> 
+		    performs the minimization under additional constraints. 
+		    These optional constraints are usually entered right after the name of the corresponding field. <br><br>
+
+                    The optional inputs available in <b>Basc</b> are listed in the table below.<br>
                 </p>
                 <table class="desc_table" border="1" style="width:100%">
                     <tr>
-                        <td>Name</td>
-                        <td>Description</td> 
+                        <td>Field</td>
+                        <td>Explanation</td> 
                         <td>Example</td>
                     </tr>
                     <!--norm-->
                     <tr>
                         <td>norm</td>
-                        <td>a norm index either equal to infinity or to an even integer, entered after the field the default value is inf</td>
+                        <td>a norm index either equal to infinity or to an even integer, the default value is inf</td>
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
                                 $(window).scrollTop($('#examples_norm').offset().top);">basc(F,degP,'norm',6)</a><br>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
-                                $(window).scrollTop($('#examples_norm').offset().top);">basc(F,degP);</a>
+                                $(window).scrollTop($('#examples_norm').offset().top);">basc(F,degP)</a>
                         </td>
                     </tr>
                     <!--weight-->
@@ -191,8 +199,8 @@ and solved using CVX [2].
                     </tr>
                     <!--breakpoints-->
                     <tr>
-                        <td>breakpoints</td>
-                        <td>a set of breakpoints in (-1,1) entered as a row-vector after the field 'bkpts', the default value is [] (i.e., no breakpoints)</td>
+                        <td>bkpts</td>
+                        <td>a set of breakpoints in (-1,1) entered as a row-vector, the default value is [] (i.e., no breakpoints)</td>
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
@@ -202,7 +210,7 @@ and solved using CVX [2].
                     <!--smoothness-->
                     <tr>
                         <td>smoothness</td>
-                        <td>a set of smoothness parameters equal to -1,0,1,2, etc. (one for each breakpoint) entered as a row-vector after the field 'smoothness', the default values is [-1 ... -1] (i.e., the approximant is discontinuous</td> 
+                        <td>a set of smoothness parameters equal to -1,0,1,2, etc. (one for each breakpoint) entered as a row-vector, the default values is [-1 ... -1] (i.e., the approximant is noncontinuous)</td> 
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
@@ -212,7 +220,7 @@ and solved using CVX [2].
                     <!--parity-->
                     <tr>
                         <td>parity</td>
-                        <td>a requirement on the parity of the approximant entered as either 'even' or 'odd' </td> 
+                        <td>a requirement on the parity of the approximant entered as 'even' or 'odd' </td> 
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
@@ -222,7 +230,7 @@ and solved using CVX [2].
                     <!--interpolation-->
                     <tr>
                         <td>interpolation</td>
-                        <td>a set of interpolation parameters entered after the field 'interpolation' as a cell of cells, with each inner cell containing first the index of the derivative to be interpolated, then either a 2-row-matrix whose first row contains the interpolation nodes and second row contains the interpolation data or a row-vector containing only the nodes if the data are the values of the appropriate derivative of the function at the nodes</td> 
+                        <td>a set of interpolation conditions entered as a cell of cells, with each inner cell containing first the index of the derivative to be interpolated, then either a 2-row-matrix whose first row contains the interpolation nodes and second row contains the interpolation data or a row-vector containing only the nodes if the data are the values of the appropriate derivative of the function at these nodes</td> 
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
@@ -235,7 +243,7 @@ and solved using CVX [2].
                     <!--upper range-->
                     <tr>
                         <td>upper range</td>
-                        <td>a set of upper range parameters entered after the field 'upper range' as a cell of cells, with each inner cell containing first the index of the derivative to be upper-bounded then the upper-bound function as a chebfun</td> 
+                        <td>a set of upper range conditions entered as a cell of cells, with each inner cell containing first the index of the derivative to be upper-bounded then the upper-bound function as a chebfun</td> 
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
@@ -245,7 +253,7 @@ and solved using CVX [2].
                     <!--lower range-->
                     <tr>
                         <td>lower range</td>
-                        <td>a set of lower range parameters entered after the field 'lower range' as a cell of cells, with each inner cell containing first the index of the derivative to be lower-bounded then the lower-bound function as a chebfun</td> 
+                        <td>a set of lower range conditions entered  as a cell of cells, with each inner cell containing first the index of the derivative to be lower-bounded then the lower-bound function as a chebfun</td> 
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
@@ -255,7 +263,7 @@ and solved using CVX [2].
                     <!--shape-->
                     <tr>
                         <td>shape</td>
-                        <td>a set of shape parameters entered after the field 'shape' as a cell of cells, with each inner cell containing first the index of the derivative whose sign pattern is imposed then a function with the given sign pattern entered as a chebfun</td> 
+                        <td>a set of shape conditions entered as a cell of cells, with each inner cell containing first the index of the derivative whose sign pattern is imposed then a function with the appropriate sign pattern entered as a chebfun</td> 
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
@@ -264,8 +272,8 @@ and solved using CVX [2].
                     </tr>
                     <!--objective function-->
                     <tr>
-                        <td>objective function</td>
-                        <td>a set of parameters associated with the objective being minimized entered after the field 'objective' as a cell whose first element is a norm index >=1 and the other elements are cells containing a derivative index followed by an attached weight, the default is {r,{0,1}} where r represents any number >= 1</td> 
+                        <td>objective</td>
+                        <td>a set of parameters describing the objective function being minimized, they are entered as a cell whose first element is a norm index r >=1 and the other elements are cells containing a derivative index followed by an attached weight, the default is {inf,{0,1}}</td> 
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
@@ -274,8 +282,8 @@ and solved using CVX [2].
                     </tr>
                     <!--side-->
                     <tr>
-                        <td>side</td>
-                        <td>a parameter to impose the side of the approximant and the target function entered as 'above' or 'below'</td> 
+                        <td><i>side</i></td>
+                        <td>a parameter entered as 'above' or 'below' imposing the position of the approximant with respect to the target function <br>(the field name should not be included)</td> 
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
@@ -286,8 +294,8 @@ and solved using CVX [2].
                     </tr>
                     <!--sign-->
                     <tr>
-                        <td>sign</td>
-                        <td>a parameter to impose the sign of the approximant entered as 'positive' or 'negative', e.g. as</td> 
+                        <td><i>sign</i></td>
+                        <td>a parameter entered as 'positive' or 'negative' imposing the sign of the approximant <br>(the field name should not be included)</td> 
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
@@ -299,8 +307,8 @@ and solved using CVX [2].
                     </tr>
                     <!--monotonicity-->
                     <tr>
-                        <td>monotonicity</td>
-                        <td>a parameter to impose the monotonicity of the approximant simply entered as 'increasing' or 'decreasing'</td> 
+                        <td><i>monotonicity</i></td>
+                        <td>a parameter entered as 'increasing' or 'decreasing' imposing the monotonicity of the approximant<br>(the field name should not be included)</td> 
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
@@ -312,8 +320,8 @@ and solved using CVX [2].
                     </tr>
                     <!--concavity-->
                     <tr>
-                        <td>concavity</td>
-                        <td>a parameter to impose the concavity of the approximant simply entered as 'convex' or 'concave'</td> 
+                        <td><i>concavity</i></td>
+                        <td>a parameter entered as 'convex' or 'concave' imposing the concavity of the approximant <br>(the field name should not be included) </td> 
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
@@ -326,7 +334,7 @@ and solved using CVX [2].
                     <!--quiet-->
                     <tr>
                         <td>quiet</td>
-                        <td>a parameter to suppress screen output from CVX after the field 'quiet' entered as true or false, the default value is true</td> 
+                        <td>a parameter to suppress screen output from CVX entered as true or false, the default value is true</td> 
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
@@ -336,7 +344,7 @@ and solved using CVX [2].
                     <!--precision-->
                     <tr>
                         <td>precision</td>
-                        <td>a parameter to choose the precision used by CVX entered after the field 'precision' as 'low', 'medium', 'default', 'high', or 'best', the default value is of CVX's default precision</td> 
+                        <td>a parameter to select CVX's precision entered as 'low', 'medium', 'default', 'high', or 'best', the default value is of CVX's default precision</td> 
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
@@ -346,7 +354,7 @@ and solved using CVX [2].
                     <!--solver-->
                     <tr>
                         <td>solver</td>
-                        <td>a parameter to choose the solver used by CVX entered after the field 'solver' as (without professional license) 'SDPT3' or 'SeDuMi', the default value is CVX's default solver</td> 
+                        <td>a parameter entered (without CVX's professional license) as 'SDPT3' or 'SeDuMi' to select CVX's solver, the default value is CVX's default solver</td> 
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
@@ -361,7 +369,7 @@ and solved using CVX [2].
             <h1 class="container_title" id="guide_interactive_guide">Interactive Guide</h1>
             <div class="content_box">
                 <div style="height: 120px">
-                    The interactive guide gives the opportunity to try some combinations of input parameters for <b>Basc</b>.<br><br>
+                    The interactive guide below gives the opportunity to try some combinations of input parameters for <b>Basc</b>.<br><br>
                     <table border="0" style="width:100%;">
                         <tr>
                             <td>
@@ -668,7 +676,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
             <h1 class="container_title" id="guide_examples">Examples</h1>
             <div class="content_box" id="examples_content_box">
                 <p>
-                    Here are some examples using the different optional parameters of <b>Basc</b>.
+                    We illustrate below the use of <b>Basc</b>'s optional inputs with a number of simple examples.
                 </p>
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_norm">
@@ -714,8 +722,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_breakpoints">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)$ 
-                            by splines of degrees $1$, $4$, $1$ and $4$ on intervals $[-1,-1/2]$, $[-1/2,0]$, $[0,1/2]$ and $[1/2,0]$ respectively in the max-norm.
+                            Here we approximate the function $F(x) = T_{10}(x)$ in the max-norm by a piecewise polynomial of degrees $1$, $4$, $1$, and $4$ on the intervals $[-1,-1/2]$, $[-1/2,0]$, $[0,1/2]$, and $[1/2,0]$, respectively.
                         </p>
                         <div class="code_box">F = chebpoly(10);
 [e,P] = basc(F,[1 4 1 4],<span class="string">'bkpts'</span>,[-1/2 0 1/2])
@@ -734,9 +741,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_smoothness">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)$ 
-                            by splines of degrees $1$, $4$, $1$ and $4$ on intervals $[-1,-1/2]$, $[-1/2,0]$, $[0,1/2]$ and $[1/2,0]$ respectively in the max-norm with smoothness conditions such that
-                            at points $-1/2$ and $1/2$ the approximant is continuous and at point $0$ the approximant is differentiable.
+                            Here we approximate the function $F(x) = T_{10}(x)$ in the max-norm by splines of degrees $1$, $4$, $1$, and $4$ on the intervals $[-1,-1/2]$, $[-1/2,0]$, $[0,1/2]$, and $[1/2,0]$, respectively, in such a way that the approximant is continuous at $-1/2$ and $1/2$ and differentiable at $0$.
                         </p>
                         <div class="code_box">F = chebpoly(10);
 [e,P] = basc(F,[1 4 1 4],<span class="string">'bkpts'</span>,[-1/2 0 1/2],<span class="string">'smoothness'</span>,[0 1 0])
@@ -755,8 +760,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_parity">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ 
-                            by polynomials of degree $n \le 3$ in the max-norm with parity constraint such that the approximant is an even function.
+                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$  that are even.
                         </p>
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'parity'</span>,<span class="string">'even'</span>);
@@ -775,8 +779,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_interpolation0">
                         <p>
-                            Here we approximate the function $F(x) = T_5(x)$ by polynomials of degree $n \le 5$ in the max-norm with interpolation constraint such that approximant
-                            has value $0$ at points $-1/2$, $0$, $1/2$.
+                            Here we approximate the function $F(x) = T_5(x)$ in the max-norm by polynomials of degree $n \le 5$ with the interpolating constraint that the approximant vanishes at $-1/2$, $0$, and $1/2$.
                         </p>
                         <div class="code_box">n = 5; F = chebpoly(5);
 [e,P]=basc(F, n, <span class="string">'interpolation'</span>, {{0, [-1/2 0 1/2; 0 0 0]}})
@@ -795,8 +798,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_interpolation1">
                         <p>
-                            Here we approximate the function $F(x) = T_5(x)$ by polynomials of degree $n \le 4$ in the max-norm with interpolation constraint such that the approximant
-                            has value of the target function at points $-1/2$, $0$, $1/2$.
+                            Here we approximate the function $F(x) = T_5(x)$ in the max-norm by polynomials of degree $n \le 4$ with the constraint that the approximant interpolates $F$ at $-1/2$, $0$, and $1/2$.
                         </p>
                         <div class="code_box">n = 4; F = chebpoly(5);
 [e,P]=basc(F, n, <span class="string">'interpolation'</span>, {{0, [-1/2 0 1/2]}})
@@ -815,8 +817,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_upper_range">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ by polynomials of degree $n \le 3$ in the max-norm with upper range constraints such that the approximant
-                            is upper-bounded by $1-x^2$ and the derivative of the approximant is upper-bounded by $1$.
+                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$  with the upper range constraint that the approximant is bounded above by $1-x^2$ and its derivative  is bounded above by $1$.
                         </p>
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'upper range'</span>,{{0,chebfun(<span class="string">'1-x.^2'</span>)},{1,chebfun(<span class="string">'1'</span>)}})
@@ -835,8 +836,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_lower_range">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ by polynomials of degree $n \le 3$ in the max-norm with lower range constraints such that the approximant
-                            is lower-bounded by $1-x^2$ and the derivative of the approximant is lower-bounded by $-1$.
+                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$ with the lower range constraint that the approximant is bounded below by $x^2-1$ and its derivative is bounded below by $-1$.
                         </p>
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'lower range'</span>,{{0,chebfun(<span class="string">'x.^2-1'</span>)},{1,chebfun(<span class="string">'-1'</span>)}})
@@ -855,8 +855,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_shape">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ by polynomials of degree $n \le 3$ in the max-norm with shape constraint such that
-                            the sign of second derivative of an approximant has a sign pattern of $x$.
+                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$  with the shape constraint that the approximant is concave on $[-1,0]$ and convex on $[0,1]$.
                         </p>
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'shape'</span>,{{2,chebfun(<span class="string">'x'</span>)}}')
@@ -895,8 +894,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_side">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$
-                            by polynomials of degree $n \le 3$ in the max-norm with
+                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm  by polynomials of degree $n \le 3$  with
                             the constraint that the approximant is larger than the target function.
                         </p>
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
@@ -916,8 +914,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_sign">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)-3$
-                            by polynomials of degree $n \le 3$ in the max-norm with
+                            Here we approximate the function $F(x) = T_{10}(x)-3$ in the max-norm by polynomials of degree $n \le 3$  with
                             the constraint that the approximant is positive.
                         </p>
                         <div class="code_box">n = 3; F = chebpoly(10)-3;
@@ -937,8 +934,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_monotonicity">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$
-                            by polynomials of degree $n \le 3$ in the max-norm with
+                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$  with
                             the constraint that the approximant is decreasing.
                         </p>
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
@@ -958,9 +954,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_concavity">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$
-                            by polynomials of degree $n \le 3$ in the max-norm with
-                            the constraint that the approximant is convex.
+                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$  with the constraint that the approximant is convex.
                         </p>
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'convex'</span>)
@@ -979,8 +973,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_quiet">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$
-                            by polynomials of degree $n \le 3$ in the max-norm with a screen output from CVX.
+                            Here we display CVX's screen output when approximating the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm  by polynomials of degree $n \le 3$.
                         </p>    
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'quiet'</span>,false)
@@ -1063,8 +1056,7 @@ Epslevel = 1.110223e-15.  Vscale = 7.324816e+00.
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_precision">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$
-                            by polynomials of degree $n \le 3$ in the max-norm with the high precision used by CVX.
+                            Here we use CVX's high precision when approximating the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$.
                         </p>    
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'precison'</span>,<span class="string">'high'</span>)
@@ -1084,8 +1076,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_solver">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$
-                            by polynomials of degree $n \le 3$ in the max-norm with the solver SeDuMi used by CVX.
+                            Here we select the solver SeDuMi for CVX when approximating  the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$.
                         </p>     
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'solver'</span>,<span class="string">'sedumi'</span>);
@@ -1108,7 +1099,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
             <h1 class="container_title" id="guide_advanced_examples">Advanced Examples</h1>
             <div class="content_box">
                 <p>
-                    The following examples are included in the publication [1].<br>
+                    The following examples are the ones included in the publication [1].<br>
                 </p>
                 <div class="body_content_container_container">
                     <h2 class="container_container_title">One-sided polynomial approximation</h2>
@@ -1323,7 +1314,7 @@ title(<span class="string">'Second derivative of the natural cubic spline'</span
             <h1 class="container_title" id="guide_references">References</h1>
             <div class="content_box">
                 <p>
-1. S. Foucart and V. Powers, <a href="http://alpha.math.uga.edu/~foucart/CAbySDP_v3.pdf">"Basc: constrained approximation by semidefinite programming"</a>.<br><br>
+1. S. Foucart and V. Powers, <a href="BascPapers/ConstrApprox.pdf">"Basc: constrained approximation by semidefinite programming"</a>.<br><br>
 2. CVX Research, Inc., "CVX: MATLAB software for disciplined convex programming, version 2.1", 2014, <a href="http://cvxr.com/cvx">http://cvxr.com/cvx</a>.<br><br>
 3. L. N. Trefethen et al., "Chebfun Version 5, The Chebfun Development Team", 2014, <a href="http://www.chebfun.org">http://www.chebfun.org</a>.<br>
                 </p>
