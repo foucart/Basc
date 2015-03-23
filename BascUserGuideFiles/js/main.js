@@ -76,6 +76,8 @@ $(document).ready(function() {
     }
     
     
+    window.scrollTo(0, 0);
+    
 });
 
 function hide_button_press(){

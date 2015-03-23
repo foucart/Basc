@@ -277,7 +277,7 @@ and solved using CVX [2].
                         <td>
                             <a onclick="
                                 $('#guide_examples').parent('div.body_content_container').find('div.content_box').slideDown(0);
-                                $(window).scrollTop($('#examples_obj_fun').offset().top);">basc(F,n,'objective',{inf,{1,0.5}})</a>
+                                $(window).scrollTop($('#examples_obj_fun').offset().top);">basc(F,n,'objective',{inf,{0,1},{1,1/3}})</a>
                         </td>
                     </tr>
                     <!--side-->
@@ -681,11 +681,10 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_norm">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)$ 
-                            by polynomials of degree $n = 0$ in the 6-norm. According to  the equioscillation property
-                            for the unconstrained approximation the approximant is a horizontal line that goes though $0$.
+                            <span class="exNum">1. </span>Here we approximate the function $F(x) = T_{10}(x)$ 
+                            by polynomials of degree $n = 4$ in the 6-norm.
                         </p>
-                        <div class="code_box">n = 0; F = chebpoly(10);
+                        <div class="code_box">n = 4; F = chebpoly(10);
 [e,P] = basc(F,n,<span class="string">'norm'</span>,6);
 set(figure(1),POS,pos);
 plot(F,<span class="string">'x-k'</span>,P,<span class="string">'s--g'</span>,LW,lw);
@@ -702,10 +701,10 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_weight">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)$ 
-                            by polynomials of degree $n = 0$ in the max-norm with the weight $W(x) = x^2$.
+                            <span class="exNum">2. </span>Here we approximate the function $F(x) = T_{10}(x)$ 
+                            by polynomials of degree $n = 2$ in the max-norm with the weight $W(x) = x^2$.
                         </p>
-                        <div class="code_box">n = 0; F = chebpoly(10);
+                        <div class="code_box">n = 2; F = chebpoly(10);
 [e,P] = basc(F,n,<span class="string">'weight'</span>,chebfun(<span class="string">'x.^2'</span>))
 set(figure(1),POS,pos);
 plot(F,<span class="string">'x-k'</span>,P,<span class="string">'s--g'</span>,LW,lw);
@@ -722,7 +721,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_breakpoints">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)$ in the max-norm by a piecewise polynomial of degrees $1$, $4$, $1$, and $4$ on the intervals $[-1,-1/2]$, $[-1/2,0]$, $[0,1/2]$, and $[1/2,0]$, respectively.
+                            <span class="exNum">3. </span>Here we approximate the function $F(x) = T_{10}(x)$ in the max-norm by a piecewise polynomial of degrees $1$, $4$, $1$, and $4$ on the intervals $[-1,-1/2]$, $[-1/2,0]$, $[0,1/2]$, and $[1/2,0]$, respectively.
                         </p>
                         <div class="code_box">F = chebpoly(10);
 [e,P] = basc(F,[1 4 1 4],<span class="string">'bkpts'</span>,[-1/2 0 1/2])
@@ -741,7 +740,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_smoothness">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)$ in the max-norm by splines of degrees $1$, $4$, $1$, and $4$ on the intervals $[-1,-1/2]$, $[-1/2,0]$, $[0,1/2]$, and $[1/2,0]$, respectively, in such a way that the approximant is continuous at $-1/2$ and $1/2$ and differentiable at $0$.
+                            <span class="exNum">4. </span>Here we approximate the function $F(x) = T_{10}(x)$ in the max-norm by splines of degrees $1$, $4$, $1$, and $4$ on the intervals $[-1,-1/2]$, $[-1/2,0]$, $[0,1/2]$, and $[1/2,0]$, respectively, in such a way that the approximant is continuous at $-1/2$ and $1/2$ and differentiable at $0$.
                         </p>
                         <div class="code_box">F = chebpoly(10);
 [e,P] = basc(F,[1 4 1 4],<span class="string">'bkpts'</span>,[-1/2 0 1/2],<span class="string">'smoothness'</span>,[0 1 0])
@@ -760,9 +759,9 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_parity">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$  that are even.
+                            <span class="exNum">5. </span>Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 4$  that are even.
                         </p>
-                        <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
+                        <div class="code_box">n = 4; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'parity'</span>,<span class="string">'even'</span>);
 set(figure(1),POS,pos);
 plot(F,<span class="string">'x-k'</span>,P,<span class="string">'s--g'</span>,LW,lw);
@@ -779,7 +778,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_interpolation0">
                         <p>
-                            Here we approximate the function $F(x) = T_5(x)$ in the max-norm by polynomials of degree $n \le 5$ with the interpolating constraint that the approximant vanishes at $-1/2$, $0$, and $1/2$.
+                            <span class="exNum">6. </span>Here we approximate the function $F(x) = T_5(x)$ in the max-norm by polynomials of degree $n \le 5$ with the interpolating constraint that the approximant vanishes at $-1/2$, $0$, and $1/2$.
                         </p>
                         <div class="code_box">n = 5; F = chebpoly(5);
 [e,P]=basc(F, n, <span class="string">'interpolation'</span>, {{0, [-1/2 0 1/2; 0 0 0]}})
@@ -798,7 +797,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_interpolation1">
                         <p>
-                            Here we approximate the function $F(x) = T_5(x)$ in the max-norm by polynomials of degree $n \le 4$ with the constraint that the approximant interpolates $F$ at $-1/2$, $0$, and $1/2$.
+                            <span class="exNum">7. </span>Here we approximate the function $F(x) = T_5(x)$ in the max-norm by polynomials of degree $n \le 4$ with the constraint that the approximant interpolates $F$ at $-1/2$, $0$, and $1/2$.
                         </p>
                         <div class="code_box">n = 4; F = chebpoly(5);
 [e,P]=basc(F, n, <span class="string">'interpolation'</span>, {{0, [-1/2 0 1/2]}})
@@ -817,7 +816,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_upper_range">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$  with the upper range constraint that the approximant is bounded above by $1-x^2$ and its derivative  is bounded above by $1$.
+                            <span class="exNum">8. </span>Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$  with the upper range constraint that the approximant is bounded above by $1-x^2$ and its derivative  is bounded above by $1$.
                         </p>
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'upper range'</span>,{{0,chebfun(<span class="string">'1-x.^2'</span>)},{1,chebfun(<span class="string">'1'</span>)}})
@@ -836,7 +835,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_lower_range">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$ with the lower range constraint that the approximant is bounded below by $x^2-1$ and its derivative is bounded below by $-1$.
+                            <span class="exNum">9. </span>Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$ with the lower range constraint that the approximant is bounded below by $x^2-1$ and its derivative is bounded below by $-1$.
                         </p>
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'lower range'</span>,{{0,chebfun(<span class="string">'x.^2-1'</span>)},{1,chebfun(<span class="string">'-1'</span>)}})
@@ -855,7 +854,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_shape">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$  with the shape constraint that the approximant is concave on $[-1,0]$ and convex on $[0,1]$.
+                            <span class="exNum">10. </span>Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$  with the shape constraint that the approximant is concave on $[-1,0]$ and convex on $[0,1]$.
                         </p>
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'shape'</span>,{{2,chebfun(<span class="string">'x'</span>)}}')
@@ -874,11 +873,11 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_obj_fun">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ by polynomials of degree $n \le 3$ in the max-norm with objective function constraint such that
-                            its derivative has the weight $W(x)=0.5$.
+                            <span class="exNum">11. </span>Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ by polynomials of degree $n \le 3$ in the max-norm with objective function constraint such that
+                            it has the weight $W_1(x)=1$ and its derivative has the weight $W_2(x)=1/3$.
                         </p>
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
-[e,P] = basc(F,n,<span class="string">'objective'</span>,{inf,{1,0.5}})
+[e,P] = basc(F,n,<span class="string">'objective'</span>,{inf,{0,1},{1,1/3}})
 set(figure(1),POS,pos);
 plot(F,<span class="string">'x-k'</span>,P,<span class="string">'s--g'</span>,LW,lw);
 set(legend(<span class="string">'target function'</span>, <span class="string">'best approx.'</span>),FS,fs,LOC,loc,BX,bx);</div>
@@ -894,10 +893,10 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_side">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm  by polynomials of degree $n \le 3$  with
+                            <span class="exNum">12. </span>Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm  by polynomials of degree $n \le 4$  with
                             the constraint that the approximant is larger than the target function.
                         </p>
-                        <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
+                        <div class="code_box">n = 4; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'above'</span>)
 set(figure(1),POS,pos);
 plot(F,<span class="string">'x-k'</span>,P,<span class="string">'s--g'</span>,LW,lw);
@@ -914,10 +913,10 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_sign">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)-3$ in the max-norm by polynomials of degree $n \le 3$  with
+                            <span class="exNum">13. </span>Here we approximate the function $F(x) = T_{10}(x)-2$ in the max-norm by polynomials of degree $n \le 3$  with
                             the constraint that the approximant is positive.
                         </p>
-                        <div class="code_box">n = 3; F = chebpoly(10)-3;
+                        <div class="code_box">n = 3; F = chebpoly(10)-2;
 [e,P] = basc(F,n,<span class="string">'positive'</span>)
 set(figure(1),POS,pos);
 plot(F,<span class="string">'x-k'</span>,P,<span class="string">'s--g'</span>,LW,lw);
@@ -934,7 +933,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_monotonicity">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$  with
+                            <span class="exNum">14. </span>Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$  with
                             the constraint that the approximant is decreasing.
                         </p>
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
@@ -954,7 +953,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_concavity">
                         <p>
-                            Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$  with the constraint that the approximant is convex.
+                            <span class="exNum">15. </span>Here we approximate the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$  with the constraint that the approximant is convex.
                         </p>
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'convex'</span>)
@@ -973,7 +972,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_quiet">
                         <p>
-                            Here we display CVX's screen output when approximating the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm  by polynomials of degree $n \le 3$.
+                            <span class="exNum">16. </span>Here we display CVX's screen output when approximating the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm  by polynomials of degree $n \le 3$.
                         </p>    
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'quiet'</span>,false)
@@ -1056,7 +1055,7 @@ Epslevel = 1.110223e-15.  Vscale = 7.324816e+00.
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_precision">
                         <p>
-                            Here we use CVX's high precision when approximating the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$.
+                            <span class="exNum">17. </span>Here we use CVX's high precision when approximating the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$.
                         </p>    
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'precison'</span>,<span class="string">'high'</span>)
@@ -1076,7 +1075,7 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_solver">
                         <p>
-                            Here we select the solver SeDuMi for CVX when approximating  the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$.
+                            <span class="exNum">18. </span>Here we select the solver SeDuMi for CVX when approximating  the function $F(x) = T_{10}(x)+T_9(x)+T_8(x)+5$ in the max-norm by polynomials of degree $n \le 3$.
                         </p>     
                         <div class="code_box">n = 3; F = chebpoly(10)+chebpoly(9)+chebpoly(8)+5;
 [e,P] = basc(F,n,<span class="string">'solver'</span>,<span class="string">'sedumi'</span>);
