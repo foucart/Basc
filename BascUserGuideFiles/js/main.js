@@ -71,6 +71,8 @@ $(document).ready(function() {
             $(this).parent('div.body_content_container').find('div.content_box').slideToggle();
             //$(document.body).scrollTop($(this).offset().top);
         });
+        
+        initialized = !initialized;
     }
     
     
