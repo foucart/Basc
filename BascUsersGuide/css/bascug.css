@@ -34,6 +34,8 @@ body {
     height: auto;
 }
 
+span.exNum { font-size: 1.2em }
+
 span.keyword { color:#0000FF }
 span.comment { color:#228B22 }
 span.string { color:#A020F0 }
