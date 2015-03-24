@@ -913,10 +913,10 @@ set(legend(<span class="string">'target function'</span>, <span class="string">'
                 <div class="body_content_container_container">
                     <div class="content_content_box" id="examples_sign">
                         <p>
-                            <span class="exNum">13. </span>Here we approximate the function $F(x) = T_{10}(x)-2$ in the max-norm by polynomials of degree $n \le 3$  with
+                            <span class="exNum">13. </span>Here we approximate the function $F(x) = T_{10}(x)-0.5$ in the max-norm by polynomials of degree $n \le 3$  with
                             the constraint that the approximant is positive.
                         </p>
-                        <div class="code_box">n = 3; F = chebpoly(10)-2;
+                        <div class="code_box">n = 3; F = chebpoly(10)-0.5;
 [e,P] = basc(F,n,<span class="string">'positive'</span>)
 set(figure(1),POS,pos);
 plot(F,<span class="string">'x-k'</span>,P,<span class="string">'s--g'</span>,LW,lw);
